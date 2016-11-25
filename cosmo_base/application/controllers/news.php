@@ -8,6 +8,15 @@ class News extends CI_Controller
        parent::__construct();
        $this->load->model('news_model');
   }
+/*  public function index()
+  {
+    if()
+    {
+
+    }else {
+      redirect('login/index');
+    }
+  }*/
 
   public function createNews()
   {
@@ -96,6 +105,21 @@ class News extends CI_Controller
       redirect('login/index');
     }
   }
+  public function viewENews($n_id = NULL)
+  {
+    if($this->auth->check_login())
+    {
+      $result = $this->news_model->get_news_id($n_id);
+      if (empty($result))
+      {
+              show_404();
+      }
 
+      $data['vn'] = $result;
+      $this->load->view('module/news_view', $data);
+    }else{
+      redirect('login/index');
+    }
+  }
 
 }
